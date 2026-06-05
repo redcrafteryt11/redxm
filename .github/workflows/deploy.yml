@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 5.231.29.82
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "index.html,images/*"
+          target: /var/www/html/
+          strip_components: 0
